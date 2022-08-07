@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.mycloset.models.MyClosetItem;
+import com.example.mycloset.models.SecurityHelper;
 import com.example.mycloset.models.User;
 import com.google.gson.Gson;
 
@@ -17,7 +18,6 @@ public class StorePersistenceHelper {
     private Set<MyClosetItem> allItems;
     private Set<MyClosetItem> checkoutItems;
     private User currentUser;
-
 
     public final static String SP_DB_TAG = "MY_CLOSET_LOCAL_DB_TAG";
     public final static String SP_ITEMS_TAG = "MY_CLOSET_ITEMS_TAG";
@@ -34,7 +34,6 @@ public class StorePersistenceHelper {
     private StorePersistenceHelper(Context c) {
         sp = c.getSharedPreferences(SP_DB_TAG, Context.MODE_PRIVATE);
     }
-
 
     public static StorePersistenceHelper getInstance(Context c) {
         if (instance == null) {
@@ -81,10 +80,7 @@ public class StorePersistenceHelper {
                 itemsSet.add(g.fromJson(e, MyClosetItem.class));
 
             if (itemsSet.isEmpty()) {
-                // add default items
-
-           //     itemsSet.add(new MyClosetItem(""));
-                itemsSet.add(new MyClosetItem(50,"Some hat","hats","/storage/emulated/0/Download/straw-hat-black-ribbon-on-260nw-727221415.jpg"));
+                itemsSet.add(new MyClosetItem(50, SecurityHelper.Encrypt("Some Hat"), SecurityHelper.Encrypt("Hats"), ""));
             }
             this.allItems = itemsSet;
         }

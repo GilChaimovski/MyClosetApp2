@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
 
-
     private RecyclerView rvItems;
     private ItemsRvAdapter rvAdapter;
     private StorePersistenceHelper storePersistenceHelper;

@@ -48,6 +48,7 @@
             android:id="@+id/password_signIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPassword"
             android:hint="Enter password"/>
 
         <Button
@@ -65,5 +66,13 @@
             android:textColor="@android:color/darker_gray"
             android:text="I want to create a new account"
             android:backgroundTint="@android:color/transparent"/>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_google"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:text="Connect via Google"
+            android:backgroundTint="@android:color/holo_red_light"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

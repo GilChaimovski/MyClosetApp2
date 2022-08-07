@@ -3,18 +3,24 @@ package com.example.mycloset;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mycloset.models.MyClosetItem;
 import com.example.mycloset.models.OnClosetItemClickListener;
+import com.example.mycloset.models.SecurityHelper;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -52,8 +58,19 @@ public class ItemsRvAdapter extends RecyclerView.Adapter<ItemsRvAdapter.ItemsVie
                 notifyDataSetChanged();
             });
         }
-        holder.itemIv.setImageBitmap(BitmapFactory.decodeFile(item.getImage()));
-        holder.itemNameTv.setText(item.getName());
+
+        String dName = SecurityHelper.Decrypt(item.getName());
+
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("images/" + item.getImage() + ".jpg");
+        storageReference.getBytes(1024 * 1024).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                holder.itemIv.setImageBitmap(bitmap);
+            }
+        });
+
+        holder.itemNameTv.setText(dName);
         holder.showMore.setOnClickListener((v) -> listener.onClick(item));
     }
 
